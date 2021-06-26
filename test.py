@@ -10,4 +10,7 @@ imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
 data.iloc[:, 1:] = imputer.fit_transform(data.iloc[:, 1:])
 
 import easygplot
-easygplot.plot(data['Year'], data.iloc[:,1:], title = "Gas Prices", legend = list(data.columns[1:]))
+easygplot.plot(data['Year'], data.iloc[:, 1:], title = "Gas Prices", legend = list(data.columns[1:]))
+
+from easygplot import plot_csv
+plot_csv.plot_csv("gasprices.csv", legend=True)
