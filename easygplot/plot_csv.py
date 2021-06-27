@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 
-def plot_csv(filename, x_columns = [0], y_columns = [1], legend=False):
+def plot_csv(filename, x_columns = 0, y_columns = [1], legend=False):
     try:
         data = pd.read_csv(filename)
     except:
@@ -15,8 +15,8 @@ def plot_csv(filename, x_columns = [0], y_columns = [1], legend=False):
     plt.plot(data.iloc[:, 0], data.iloc[:, 1:])
     # if title:
     #     plt.title(title)
-    # if xlabel:
-    #     plt.xlabel(xlabel)
+    if legend:
+        plt.xlabel(data.columns[x_columns])
     # if ylabel:
     #     plt.ylabel(ylabel)
     if legend:
