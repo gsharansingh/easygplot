@@ -7,6 +7,10 @@ def pie_plot(data, labels):
     plt.pie(data, labels = labels)
     plt.show()
 
+def bar_plot(data, labels):
+    plt.bar(data,height = max(data), label = labels)
+    plt.show()   
+
 def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False, linestyle = 'solid', other_graphs = False):
     try:
         # initializing the titles and rows list
@@ -44,3 +48,8 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
 
     if 'pie' in other_graphs:
         pie_plot(np.sum(rows[:, 1:], axis = 1), labels = rows[:, 0])
+        pie_plot(np.sum(rows[:,1:], axis = 0), labels = fields[1:])
+
+    if 'bar' in other_graphs:
+        bar_plot(np.sum(rows[:, 1:], axis = 1), labels = rows[:, 0])
+        bar_plot(np.sum(rows[:,1:], axis = 0), labels = fields[1:])
