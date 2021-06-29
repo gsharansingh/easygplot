@@ -2,6 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import csv
 from sklearn.impute import SimpleImputer
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def line_plot(data, labels, title = None, legend=False, linestyle = 'solid'):
     plt.plot(labels[0], data, linestyle = linestyle)
@@ -21,9 +23,28 @@ def pie_plot(data, labels):
     plt.show()
 
 def bar_plot(data, labels):
-    plt.bar(labels, height = data, tick_label = labels)
-    plt.xticks(rotation=90)
-    plt.show()
+        if (data.shape[1]> 1):
+            plt.subplot(1, 2, 1)
+            plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
+            plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
+            for i, column_label in enumerate(labels[1][1:]):
+                plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
+            plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            plt.xticks(labels[0], rotation=90)
+
+            plt.subplot(1, 2, 2)
+            plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
+            plt.bar(labels[1], data[0, :], width = 0.6, label=labels[0][0])
+            for i, column_label in enumerate(labels[0][1:]):
+                plt.bar(labels[1], data[i+1, :],width = 0.6, bottom=np.sum(data[:i+1, :], axis = 0), label=column_label)
+            plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            plt.xticks(labels[1], rotation=90)
+            plt.show()
+            
+        else:
+            plt.bar(labels[0], height = data, tick_label = labels[0])
+            plt.xticks(rotation=90)
+    
 
 def box_plot(data, labels):
     plt.boxplot(data, labels = labels)
@@ -35,6 +56,9 @@ def hist_plot(data, bins = None, labels = None):
     plt.subplots_adjust(right=0.75)
     plt.legend(labels, loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
     plt.show()
+
+# def plot_all(data, labels):
+
 
 def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False, linestyle = 'solid', other_graphs = False):
     try:
@@ -63,7 +87,7 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
         columns_label = rows[:, 0]
         data = rows[:, 1:]
 
-    labels = (columns_label, fields)
+    labels = (columns_label, fields[1:])
 
     line_plot(data, labels= labels, title = title, legend = legend, linestyle = linestyle)
 
@@ -72,8 +96,9 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
         box_plot(data, labels = fields[1:])
         pie_plot(np.sum(data, axis = 1), labels = rows[:, 0])
         pie_plot(np.sum(data, axis = 0), labels = fields[1:])
-        bar_plot(np.sum(data, axis = 1), labels = rows[:, 0])
-        bar_plot(np.sum(data, axis = 0), labels = fields[1:])
+        bar_plot(data, labels = labels)
+
+        # plot_all(data, labels = labels)
 
     else:
 
@@ -88,5 +113,5 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
             pie_plot(np.sum(data, axis = 0), labels = fields[1:])
 
         if 'bar' in other_graphs:
-            bar_plot(np.sum(data, axis = 1), labels = rows[:, 0])
-            bar_plot(np.sum(data, axis = 0), labels = fields[1:])
+            bar_plot(data, labels = labels)
+            # bar_plot(np.sum(data, axis = 0), labels = fields[1:])
