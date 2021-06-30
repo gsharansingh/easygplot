@@ -5,14 +5,15 @@ from sklearn.impute import SimpleImputer
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-def line_plot(data, labels, title = None, legend=False, linestyle = 'solid'):
+def line_plot(data, labels, x_label = None, y_label = None, title = None, legend=False, linestyle = 'solid'):
     plt.plot(labels[0], data, linestyle = linestyle)
     plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
     if title:
         plt.title(title)
-    plt.xlabel(labels[0])
-    if legend:
-        plt.ylabel("Price")
+    if x_label:
+        plt.xlabel(x_label)
+    if y_label:
+        plt.ylabel(y_label)
     if legend:
         plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
     plt.xticks(labels[0], rotation=90)
@@ -61,7 +62,7 @@ def hist_plot(data, bins = None, labels = None):
 
 def plot_all(data, labels):
     if (data.shape[1]> 1):
-        plt.figure(figsize=(15, 25))
+        plt.figure(figsize=(14, 21))
         plt.subplot(3, 2, 1)
         plt.subplots_adjust(left=0.05, bottom=0.05, right=0.85, top=None, wspace=0.5, hspace=0.5)
         plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
@@ -99,7 +100,7 @@ def plot_all(data, labels):
         plt.show()
 
 
-def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False, linestyle = 'solid', other_graphs = False):
+def plot_csv(filename, x_column = None, y_column = 1, row_label = None, column_label = None, title = None, legend=False, linestyle = 'solid', other_graphs = False):
     try:
         # initializing the titles and rows list
         fields = []
@@ -128,7 +129,7 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
 
     labels = (columns_label, fields[1:])
 
-    line_plot(data, labels= labels, title = title, legend = legend, linestyle = linestyle)
+    line_plot(data, labels= labels, x_label = row_label, title = title, legend = legend, linestyle = linestyle)
 
     if 'all' in other_graphs:
         plot_all(data, labels)
@@ -147,4 +148,3 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
 
         if 'bar' in other_graphs:
             bar_plot(data, labels = labels)
-            # bar_plot(np.sum(data, axis = 0), labels = fields[1:])
