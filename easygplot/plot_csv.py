@@ -23,27 +23,29 @@ def pie_plot(data, labels):
     plt.show()
 
 def bar_plot(data, labels):
-        if (data.shape[1]> 1):
-            plt.subplot(1, 2, 1)
-            plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
-            plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
-            for i, column_label in enumerate(labels[1][1:]):
-                plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
-            plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
-            plt.xticks(labels[0], rotation=90)
+    if (data.shape[1]> 1):
+        plt.figure(figsize=(13, 5))
+        plt.subplot(1, 2, 1)
+        plt.subplots_adjust(left=0.05, bottom=0.25, right=0.85, top=None, wspace=0.5, hspace=None)
+        plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
+        for i, column_label in enumerate(labels[1][1:]):
+            plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
+        plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+        plt.xticks(labels[0], rotation=90)
 
-            plt.subplot(1, 2, 2)
-            plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
-            plt.bar(labels[1], data[0, :], width = 0.6, label=labels[0][0])
-            for i, column_label in enumerate(labels[0][1:]):
-                plt.bar(labels[1], data[i+1, :],width = 0.6, bottom=np.sum(data[:i+1, :], axis = 0), label=column_label)
-            plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
-            plt.xticks(labels[1], rotation=90)
-            plt.show()
-            
-        else:
-            plt.bar(labels[0], height = data, tick_label = labels[0])
-            plt.xticks(rotation=90)
+        plt.subplot(1, 2, 2)
+        plt.subplots_adjust(left=0.05, bottom=0.25, right=0.85, top=None, wspace=0.5, hspace=None)
+        plt.bar(labels[1], data[0, :], width = 0.6, label=labels[0][0])
+        for i, column_label in enumerate(labels[0][1:]):
+            plt.bar(labels[1], data[i+1, :],width = 0.6, bottom=np.sum(data[:i+1, :], axis = 0), label=column_label)
+        plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+        plt.xticks(labels[1], rotation=90)
+        plt.show()
+        
+    else:
+        plt.bar(labels[0], height = data, tick_label = labels[0])
+        plt.xticks(rotation=90)
+        plt.show()
     
 
 def box_plot(data, labels):
@@ -57,7 +59,44 @@ def hist_plot(data, bins = None, labels = None):
     plt.legend(labels, loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
     plt.show()
 
-# def plot_all(data, labels):
+def plot_all(data, labels):
+    if (data.shape[1]> 1):
+        plt.figure(figsize=(15, 25))
+        plt.subplot(3, 2, 1)
+        plt.subplots_adjust(left=0.05, bottom=0.05, right=0.85, top=None, wspace=0.5, hspace=0.5)
+        plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
+        for i, column_label in enumerate(labels[1][1:]):
+            plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
+        plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+        plt.xticks(labels[0], rotation=90)
+
+        plt.subplot(3, 2, 2)
+        plt.bar(labels[1], data[0, :], width = 0.6, label=labels[0][0])
+        for i, column_label in enumerate(labels[0][1:]):
+            plt.bar(labels[1], data[i+1, :],width = 0.6, bottom=np.sum(data[:i+1, :], axis = 0), label=column_label)
+        plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+        plt.xticks(labels[1], rotation=90)
+
+        plt.subplot(3, 2, 3)
+        plt.boxplot(data, labels = labels[1])
+        plt.xticks(rotation=90)
+
+        plt.subplot(3, 2, 4)
+        plt.hist(data, bins = 10, label = labels[1])
+        plt.subplots_adjust(right=0.75)
+        plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+
+        plt.subplot(3, 2, 5)
+        plt.pie(np.sum(data, axis = 0), labels = labels[1])
+
+        plt.subplot(3, 2, 6)
+        plt.pie(np.sum(data, axis = 1), labels = labels[0])
+        plt.show()
+        
+    else:
+        plt.bar(labels[0], height = data, tick_label = labels[0])
+        plt.xticks(rotation=90)
+        plt.show()
 
 
 def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False, linestyle = 'solid', other_graphs = False):
@@ -92,13 +131,7 @@ def plot_csv(filename, x_column = None, y_column = 1, title = None, legend=False
     line_plot(data, labels= labels, title = title, legend = legend, linestyle = linestyle)
 
     if 'all' in other_graphs:
-        hist_plot(data, labels = fields[1:])
-        box_plot(data, labels = fields[1:])
-        pie_plot(np.sum(data, axis = 1), labels = rows[:, 0])
-        pie_plot(np.sum(data, axis = 0), labels = fields[1:])
-        bar_plot(data, labels = labels)
-
-        # plot_all(data, labels = labels)
+        plot_all(data, labels)
 
     else:
 
