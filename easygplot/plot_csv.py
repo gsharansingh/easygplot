@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
+import pandas as pd
 from sklearn.impute import SimpleImputer
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
