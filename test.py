@@ -14,9 +14,12 @@ easygplot.plot(data.iloc[:, 0], data.iloc[:, 1:], title = "Gas Prices", legend =
 
 from easygplot import plot_csv, read
 mydata = read.CSV("gasprices.csv")
-print(mydata[:, 0])
-print(mydata)
-print(len(mydata))
+# print(mydata[:])
+# print(mydata)
+# print(len(mydata))
+
+line_plot = plot_csv.line(legend=True)
+line_plot(mydata[:,1])
 
 # print([data for data in mydata])
 
