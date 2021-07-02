@@ -19,8 +19,11 @@ mydata = read.CSV("gasprices.csv")
 # print(len(mydata))
 
 line_plot = plot_csv.line(legend=True)
-line_plot(mydata[:,1])
+# line_plot(mydata[:])
+# l1, l2 = mydata[3]
+# print(l2[1])
+plot_csv.line(legend=True)(mydata[1])
 
 # print([data for data in mydata])
 
-plot_csv.plot_csv("gasprices.csv", x_column = 0, row_label = "Years", column_label = "Countries", title = "Gas Prices", legend=True, linestyle = "solid", other_graphs=['all'])
+# plot_csv.plot_csv("gasprices.csv", x_column = 0, row_label = "Years", column_label = "Countries", title = "Gas Prices", legend=True, linestyle = "solid", other_graphs=['all'])

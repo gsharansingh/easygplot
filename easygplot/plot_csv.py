@@ -24,7 +24,10 @@ class line(object):
         # if y_label:
         #     plt.ylabel(y_label)
         if self.legend:
-            plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            if type(labels[1]) == str:
+                plt.legend([labels[1]], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            else:
+                plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
         plt.xticks(labels[0], rotation=90)
         plt.show()
 
