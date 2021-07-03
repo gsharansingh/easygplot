@@ -107,3 +107,8 @@ class Pie(object):
         if self.legend:
             plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
         plt.show()
+        return self.sample
+
+class Subplots:
+    def __init__(self, *args, **kwargs):
+        pass
