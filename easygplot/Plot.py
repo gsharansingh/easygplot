@@ -22,7 +22,7 @@ class Line(object):
         if self.do_subplot:
             plt.subplot(3, 2, self.subplot_num + 1)
         plt.plot(labels[0], data, linestyle = self.linestyle)
-        # plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
+        plt.subplots_adjust(left=None, bottom=None, right=0.75, top=None, wspace=None, hspace=None)
         # if title:
         #     plt.title(title)
         # if x_label:
@@ -160,11 +160,12 @@ class Subplots:
     def __init__(self, sample, legend = False):
         self.legend = legend
         self.sample = sample
+
     def __call__(self, *args):
         all_plots = []
         num_subplots = 0
         if 'line' in args:
-            all_plots += [Histogram(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
+            all_plots += [Line(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
             num_subplots += 1
 
         if 'histogram' in args:
@@ -180,11 +181,11 @@ class Subplots:
             num_subplots += 2
 
         if 'bar' in args:
-            all_plots += [Bar(legend = True, sample = self.sample, subplot_num = num_subplots)]
+            all_plots += [Bar(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
             num_subplots += 2
 
-        subplot_ratio = int(num_subplots/2 + 0.5)
-        plt.figure(figsize=(subplot_ratio*5, subplot_ratio*3))
-        from torchvision import transforms
-        plot_obj = transforms.Compose(all_plots)
-        return plot_obj
+        subplot_ratio = int(num_subplots/2 + 1)
+        plt.figure(figsize=(16, 16))
+        for plot in all_plots:
+            plt.subplots_adjust(left=0.05, bottom=0.05, right=0.85, top=None, wspace=0.5, hspace=0.5)
+            plot()
