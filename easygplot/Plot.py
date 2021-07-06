@@ -35,6 +35,11 @@ class Line(object):
     -------
     sample : 'easygplot.read(...filename...)' object
         It is returned for the purpose of creating a pipeline.
+
+    TODO:
+        1. Add support for data without labels.
+        2. y-ticks support
+        3. Smart way to handle data flow through pipeline.
     """
     def __init__ (self, figsize = (8, 5), linestyle = 'solid', legend = False, sample = None, do_subplot = False, subplot_num = None,
     title = None, x_label = None, y_label = None):
