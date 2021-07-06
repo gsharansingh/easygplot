@@ -5,7 +5,37 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 class Line(object):
-
+    """
+    This module helps in plotting Line Graph on a csv file read by 'easygplot.read(...filename...)'
+    Parameters
+    ----------
+    figsize : tuple, optional (default = (8, 5))
+        first and second element in tuple represent the dimensions of the line graph, which are 
+        width and height respectivily.
+    linestyle : str (default = 'solid')
+        Set the linestyle of the line
+        '-' or 'solid'     =>   solid line
+        '--' or 'dashed'   =>   dashed line
+        '-.' or 'dashdot'  =>	dash-dotted line
+        ':' or 'dotted'    =>	dotted line
+        'None' or ' ' or ''=>	draw nothing
+    legned : bool (default = False)
+        Set to 'True' to place a legend on the Axes.
+    sample : 'easygplot.read(...filename...)' object, optional (if the object will be passed while calling the object this class)
+        Pass the data and labels read by the 'easygplot.read(...filename...)'.
+    do_subplot : Set to 'True', while plotting it as subplot.
+    subplot_num : Subplot position number.
+    title : str, optional
+        The title text of the graph.
+    x_label : str, optional
+        The label text at x-axis.
+    y_label : str, optional
+        The label text at x-axis.
+    Returns : 
+    -------
+    sample : 'easygplot.read(...filename...)' object
+        It is returned for the purpose of creating a pipeline.
+    """
     def __init__ (self, figsize = (8, 5), linestyle = 'solid', legend = False, sample = None, do_subplot = False, subplot_num = None,
     title = None, x_label = None, y_label = None):
         self.figsize = figsize
@@ -45,7 +75,29 @@ class Line(object):
             return self.sample
 
 class Bar(object):
-
+    """
+    This module helps in plotting Bar Graph on a csv file read by 'easygplot.read(...filename...)'.
+    It plots 2 graphs : one along columns and the other along the rows.
+    Parameters
+    ----------
+    figsize : tuple, optional (default = (8, 5))
+        first and second element in tuple represent the dimensions of the line graph, which are 
+        width and height respectivily.
+    legned : bool (default = False)
+        Set to 'True' to place a legend on the Axes.
+    sample : 'easygplot.read(...filename...)' object, optional (if the object will be passed while calling the object this class)
+        Pass the data and labels read by the 'easygplot.read(...filename...)'.
+    do_subplot : Set to 'True', while plotting it as subplot.
+    subplot_num : Subplot position number.
+    title : str, optional
+        The title text of the graph.
+    y_label : str, optional
+        The label text at x-axis.
+    Returns : 
+    -------
+    sample : 'easygplot.read(...filename...)' object
+        It is returned for the purpose of creating a pipeline.
+    """
     def __init__ (self, figsize = (8, 5), legend = False, sample = None, do_subplot = False, subplot_num = None,
     title = None, y_label = None):
         self.figsize = figsize
@@ -96,7 +148,30 @@ class Bar(object):
             return self.sample
 
 class Box(object):
-
+    """
+    This module helps in plotting Box Graph on a csv file read by 'easygplot.read(...filename...)'
+    Parameters
+    ----------
+    figsize : tuple, optional (default = (8, 5))
+        first and second element in tuple represent the dimensions of the line graph, which are 
+        width and height respectivily.
+    legned : bool (default = False)
+        Set to 'True' to place a legend on the Axes.
+    sample : 'easygplot.read(...filename...)' object, optional (if the object will be passed while calling the object this class)
+        Pass the data and labels read by the 'easygplot.read(...filename...)'.
+    do_subplot : Set to 'True', while plotting it as subplot.
+    subplot_num : Subplot position number.
+    title : str, optional
+        The title text of the graph.
+    x_label : str, optional
+        The label text at x-axis.
+    y_label : str, optional
+        The label text at x-axis.
+    Returns : 
+    -------
+    sample : 'easygplot.read(...filename...)' object
+        It is returned for the purpose of creating a pipeline.
+    """
     def __init__ (self, figsize = (8, 5), sample = None, do_subplot = False, subplot_num = None,
     title = None, x_label = None, y_label = None):
         self.figsize = figsize
@@ -128,7 +203,30 @@ class Box(object):
             return self.sample
 
 class Histogram(object):
-
+    """
+    This module helps in plotting Histogram on a csv file read by 'easygplot.read(...filename...)'
+    Parameters
+    ----------
+    figsize : tuple, optional (default = (8, 5))
+        first and second element in tuple represent the dimensions of the line graph, which are 
+        width and height respectivily.
+    legned : bool (default = False)
+        Set to 'True' to place a legend on the Axes.
+    sample : 'easygplot.read(...filename...)' object, optional (if the object will be passed while calling the object this class)
+        Pass the data and labels read by the 'easygplot.read(...filename...)'.
+    do_subplot : Set to 'True', while plotting it as subplot.
+    subplot_num : Subplot position number.
+    title : str, optional
+        The title text of the graph.
+    x_label : str, optional
+        The label text at x-axis.
+    y_label : str, optional
+        The label text at x-axis.
+    Returns : 
+    -------
+    sample : 'easygplot.read(...filename...)' object
+        It is returned for the purpose of creating a pipeline.
+    """
     def __init__ (self, figsize = (8, 5), legend = False, sample = None, do_subplot = False, subplot_num = None,
     title = None, x_label = None, y_label = None):
         self.figsize = figsize
@@ -163,7 +261,31 @@ class Histogram(object):
             return self.sample
 
 class Pie(object):
-
+    """
+    This module helps in plotting Pie Graph on a csv file read by 'easygplot.read(...filename...)'
+    It plots 2 graphs : one along columns and the other along the rows.
+    Parameters
+    ----------
+    figsize : tuple, optional (default = (8, 5))
+        first and second element in tuple represent the dimensions of the line graph, which are 
+        width and height respectivily.
+    legned : bool (default = False)
+        Set to 'True' to place a legend on the Axes.
+    sample : 'easygplot.read(...filename...)' object, optional (if the object will be passed while calling the object this class)
+        Pass the data and labels read by the 'easygplot.read(...filename...)'.
+    do_subplot : Set to 'True', while plotting it as subplot.
+    subplot_num : Subplot position number.
+    title : str, optional
+        The title text of the graph.
+    x_label : str, optional
+        The label text at x-axis.
+    y_label : str, optional
+        The label text at x-axis.
+    Returns : 
+    -------
+    sample : 'easygplot.read(...filename...)' object
+        It is returned for the purpose of creating a pipeline.
+    """
     def __init__ (self, figsize = (8, 5), legend = False, sample = None, do_subplot = False, subplot_num = None,
     title_cwise = None, title_rwise = None):
         self.figsize = figsize

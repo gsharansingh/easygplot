@@ -27,5 +27,5 @@ Plot.Line(legend=True)(mydata[1])
 # print([data for data in mydata])
 from torchvision import transforms
 plot_obj = transforms.Compose([Plot.Line(legend=True), Plot.Bar(legend=True), Plot.Box(), Plot.Histogram(legend=True), Plot.Pie(legend=True)])
-plot_obj(mydata[:])
+a = plot_obj(mydata[:])
 # plot_csv.plot_csv("gasprices.csv", x_column = 0, row_label = "Years", column_label = "Countries", title = "Gas Prices", legend=True, linestyle = "solid", other_graphs=['all'])
