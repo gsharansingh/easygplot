@@ -331,39 +331,54 @@ class Pie(object):
             return self.sample
 
 class Subplots:
-
+    """
+    Plot the different graphs using 'easygplot.read.CSV(...filename...)' object.
+    Parameters
+    ----------
+    sample : 'easygplot.read.CSV(...filename...)' object
+        Pass the data and labels read by the 'easygplot.read(...filename...)'.
+    Output
+    ------
+    Subplots of all the input graph types
+    """
     def __init__(self, sample, legend = False):
         self.sample = sample
         self.legend = legend
 
     def __call__(self, *args):
+        """
+        *args : array-like strings
+            Input the graphs names which you to display
+            'all' => plot all graphs
+            Individual graphs are: {'line', 'box', 'pie', 'bar', 'histogram'}
+        """
         all_plots = []
         num_subplots = 0
 
-        # if 'all' in args:
-        #     all_plots += [Line(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-        #     all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-        #     all_plots += [Pie(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-        #     all_plots += [Bar(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-        #     all_plots += [Histogram(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-        #     num_subplots = 7
+        if 'all' in args:
+            all_plots += [Line(sample = self.sample, legend = True, do_subplot= True, subplot_num = 0)]
+            all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = 1)]
+            all_plots += [Pie( sample = self.sample, legend = True, do_subplot= True, subplot_num = 2)]
+            all_plots += [Bar( sample = self.sample, legend = True, do_subplot= True, subplot_num = 4)]
+            all_plots += [Histogram( sample = self.sample, legend = True, do_subplot= True, subplot_num = 6)]
+            num_subplots = 7
 
-        # else:
-        if 'line' in args:
-            all_plots += [Line(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-            num_subplots += 1
-        if 'box' in args:
-            all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-            num_subplots += 1
-        if 'pie' in args:
-            all_plots += [Pie(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-            num_subplots += 2
-        if 'bar' in args:
-            all_plots += [Bar(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-            num_subplots += 2
-        if 'histogram' in args:
-            all_plots += [Histogram(legend = True, sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
-            num_subplots += 1
+        else:
+            if 'line' in args:
+                all_plots += [Line(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
+                num_subplots += 1
+            if 'box' in args:
+                all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = num_subplots)]
+                num_subplots += 1
+            if 'pie' in args:
+                all_plots += [Pie(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
+                num_subplots += 2
+            if 'bar' in args:
+                all_plots += [Bar(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
+                num_subplots += 2
+            if 'histogram' in args:
+                all_plots += [Histogram(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
+                num_subplots += 1
 
         subplot_ratio = int(num_subplots/2 + 1)
         plt.figure(figsize=(16, 24))
