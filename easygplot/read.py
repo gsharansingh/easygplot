@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import csv
 from sklearn.impute import SimpleImputer
@@ -22,10 +21,13 @@ class CSV:
         If you want some other column index to be x-axis, pass that column index. 
         If you do not want any column index to be x-axis, pass 'None'.
     missing_data_handling_strategy: str, Optional (default = 'mean')
-        In the case, some values are missing in the file.
-        We can `Drop` those rows or use some other strategy to handle the data.
-        Default, it is `mean`
-
+        In the case, some values are missing in the file, then either replace the values or drop the row/column.
+        If 'mean', it will replace missing value using mean along column.
+        If 'median', it will replace missing value using median along column.
+        If 'most_frequent', it will replace missing value using the most frequent value along column.
+        If 'constant', it will replace missing value with fill_value.
+        If 'drop_row', it will drop the whole row containing missing value.
+        If 'drop_column', it will drop the whole column containing missing value.
     TODO:
         1. Implement the y-axis data selection
         2. Implement the self.labels in the case the first row of csv file does not contains labels,
@@ -50,7 +52,21 @@ class CSV:
         except:
             raise "Give a valid filename!!"
 
-        imputer = SimpleImputer(missing_values=np.nan, strategy=missing_data_handling_strategy)
+        if np.isnan(self.data).any():
+            import matplotlib.pyplot as plt
+            print("Data contains missing values. Here is the representation of missing values:")
+            plt.imshow(~np.isnan(self.data), aspect = 'auto', cmap = plt.cm.gray, interpolation='nearest')
+            self.data = np.delete(self.data, np.argwhere(np.isnan(self.data).all(axis = 0)), axis = 1)
+            self.data = np.delete(self.data, np.argwhere(np.isnan(self.data).all(axis = 1)), axis = 0)
+            print("""NOTE: if the data has whole row or column as missing values, that row or column is already dropped!\
+            \nFor more information, check 'missing_data_handling_strategy' parameter in Docu String by: 'print(easygplot.read.CSV.__doc__)'""")
+
+        if missing_data_handling_strategy == 'drop_column':
+            self.data = np.delete(self.data, np.argwhere(np.isnan(self.data).any(axis = 0)), axis = 1)
+        elif missing_data_handling_strategy == 'drop_row':
+            self.data = np.delete(self.data, np.argwhere(np.isnan(self.data).any(axis = 1)), axis = 0)
+        else:
+            imputer = SimpleImputer(missing_values=np.nan, strategy=missing_data_handling_strategy)
         self.data[:, 1:] = imputer.fit_transform(self.data[:, 1:])
 
         if x_axis_column == None:
