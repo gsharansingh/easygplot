@@ -17,7 +17,7 @@ class CSV:
         Set 'False', if the first row of the csv file is not columns.
     delimiter: one char str (default = `,`)
         If the csv file is separated with some other symbols (such as ':', ';', '/t',....), Input that symbol.
-    x_axis_column: int (default = 0)
+    set_index: int (default = 0)
         If you want some other column index to be x-axis, pass that column index. 
         If you do not want any column index to be x-axis, pass 'None'.
     missing_data_handling_strategy: str, Optional (default = 'mean')
@@ -34,7 +34,7 @@ class CSV:
         i.e. if `labels == False`
         3. 
     """
-    def __init__ (self, filename, labels = True, delimiter=",", x_axis_column = 0, missing_data_handling_strategy = 'mean'):
+    def __init__ (self, filename, labels = True, delimiter=",", set_index = 0, select_columns = None, missing_data_handling_strategy = 'mean'):
         
         self.data = None
         self.columns = []
@@ -69,11 +69,10 @@ class CSV:
             imputer = SimpleImputer(missing_values=np.nan, strategy=missing_data_handling_strategy)
         self.data[:, 1:] = imputer.fit_transform(self.data[:, 1:])
 
-        if x_axis_column == None:
+        if set_index == None:
             self.x_label = list(range(self.data.shape[0]))
-            self.row_data = self.data[:, 0:]
         else:
-            self.x_label = self.data[:, x_axis_column]
+            self.x_label = self.data[:, set_index]
             self.row_data = self.data[:, 1:]
 
         self.labels = (self.x_label, self.columns[1:])

@@ -121,36 +121,43 @@ class Bar(object):
             plt.figure(figsize=self.figsize)
         if self.do_subplot:
             plt.subplot(4, 2, self.subplot_num + 1)
-        plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
-        if self.title:
-            plt.title(self.title)
-        if self.y_label:
-            plt.ylabel(self.y_label)
-        for i, column_label in enumerate(labels[1][1:]):
-            plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
+        if len(data.shape) == 1:
+            plt.bar(labels[0], data, width = 0.6, label=labels[1][0])
+        else:
+            plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
+            if self.title:
+                plt.title(self.title)
+            if self.y_label:
+                plt.ylabel(self.y_label)
+            for i, column_label in enumerate(labels[1][1:]):
+                plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
         if self.legend:
-            plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            if type(labels[1]) == str:
+                plt.legend([labels[1]], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            else:
+                plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
         plt.xticks(labels[0], rotation=90)
         if not self.do_subplot:
             plt.show()
 
-        if not self.do_subplot:
-            plt.figure(figsize=self.figsize)
-        if self.do_subplot:
-            plt.subplot(4, 2, self.subplot_num + 2)
-        plt.bar(labels[1], data[0, :], width = 0.6, label=labels[0][0])
-        if self.title:
-            plt.title(self.title)
-        if self.y_label:
-            plt.ylabel(self.y_label)
-        for i, column_label in enumerate(labels[0][1:]):
-            plt.bar(labels[1], data[i+1, :],width = 0.6, bottom=np.sum(data[:i+1, :], axis = 0), label=column_label)
-        if self.legend:
-            plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
-        plt.xticks(labels[1], rotation=90)
-        if not self.do_subplot:
-            plt.show()
-            return self.sample
+        if len(data.shape) != 1:
+            if not self.do_subplot:
+                plt.figure(figsize=self.figsize)
+            if self.do_subplot:
+                plt.subplot(4, 2, self.subplot_num + 2)
+            plt.bar(labels[1], data[0, :], width = 0.6, label=labels[0][0])
+            if self.title:
+                plt.title(self.title)
+            if self.y_label:
+                plt.ylabel(self.y_label)
+            for i, column_label in enumerate(labels[0][1:]):
+                plt.bar(labels[1], data[i+1, :],width = 0.6, bottom=np.sum(data[:i+1, :], axis = 0), label=column_label)
+            if self.legend:
+                plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            plt.xticks(labels[1], rotation=90)
+            if not self.do_subplot:
+                plt.show()
+                return self.sample
 
 class Box(object):
     """
@@ -375,7 +382,10 @@ class Subplots:
                 num_subplots += 2
             if 'bar' in args:
                 all_plots += [Bar(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
-                num_subplots += 2
+                if len(self.sample) == 1:
+                    num_subplots += 1
+                else:
+                    num_subplots += 2
             if 'histogram' in args:
                 all_plots += [Histogram(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
                 num_subplots += 1
