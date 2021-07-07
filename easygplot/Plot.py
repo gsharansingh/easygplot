@@ -267,7 +267,10 @@ class Histogram(object):
         if self.y_label:
             plt.ylabel(self.y_label)
         if self.legend:
-            plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            if type(labels[1]) == str:
+                plt.legend([labels[1]], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
+            else:
+                plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
         if not self.do_subplot:
             plt.show()
             return self.sample
@@ -316,26 +319,33 @@ class Pie(object):
             plt.figure(figsize=self.figsize)
         if self.do_subplot:
             plt.subplot(4, 2, self.subplot_num + 1)
-        plt.pie(np.sum(data, axis = 0), labels = labels[1])
-        if self.title_cwise:
-            plt.title(self.title_cwise)
+        if len(data.shape) == 1:
+            plt.pie(data, labels = labels[0])
+        else:
+            plt.pie(np.sum(data, axis = 0), labels = labels[1])
+            if self.title_cwise:
+                plt.title(self.title_cwise)
         if self.legend:
-            plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
+            if type(labels[1]) == str:
+                plt.legend([labels[1]], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
+            else:
+                plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
         if not self.do_subplot:
             plt.show()
 
-        if not self.do_subplot:
-            plt.figure(figsize=self.figsize)
-        if self.do_subplot:
-            plt.subplot(4, 2, self.subplot_num + 2)
-        plt.pie(np.sum(data, axis = 1), labels = labels[0])
-        if self.title_rwise:
-            plt.title(self.title_rwise)
-        if self.legend:
-            plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
-        if not self.do_subplot:
-            plt.show()
-            return self.sample
+        if len(data.shape) != 1:
+            if not self.do_subplot:
+                plt.figure(figsize=self.figsize)
+            if self.do_subplot:
+                plt.subplot(4, 2, self.subplot_num + 2)
+            plt.pie(np.sum(data, axis = 1), labels = labels[0])
+            if self.title_rwise:
+                plt.title(self.title_rwise)
+            if self.legend:
+                plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
+            if not self.do_subplot:
+                plt.show()
+                return self.sample
 
 class Subplots:
     """
@@ -363,12 +373,19 @@ class Subplots:
         num_subplots = 0
 
         if 'all' in args:
+            if len(self.sample[0].shape) == 1:
+                subplot_num = (1, 2, 3)
+                num_subplots = 5
+            else:
+                subplot_num = (2, 4, 6)
+                num_subplots = 7
             all_plots += [Line(sample = self.sample, legend = True, do_subplot= True, subplot_num = 0)]
-            all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = 1)]
-            all_plots += [Pie( sample = self.sample, legend = True, do_subplot= True, subplot_num = 2)]
-            all_plots += [Bar( sample = self.sample, legend = True, do_subplot= True, subplot_num = 4)]
-            all_plots += [Histogram( sample = self.sample, legend = True, do_subplot= True, subplot_num = 6)]
-            num_subplots = 7
+            if len(self.sample[0].shape) != 1:
+                all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = 1)]
+            all_plots += [Pie( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[0])]
+            all_plots += [Bar( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[1])]
+            all_plots += [Histogram( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[2])]
+                
 
         else:
             if 'line' in args:
@@ -390,7 +407,7 @@ class Subplots:
                 all_plots += [Histogram(sample = self.sample, legend = True, do_subplot= True, subplot_num = num_subplots)]
                 num_subplots += 1
 
-        subplot_ratio = int(num_subplots/2 + 1)
+        # subplot_ratio = int(num_subplots/2 + 1)
         plt.figure(figsize=(16, 24))
         for plot in all_plots:
             plt.subplots_adjust(left=0.05, bottom=0.05, right=0.85, top=None, wspace=0.5, hspace=0.5)
