@@ -415,3 +415,8 @@ class Subplots:
         for plot in all_plots:
             plt.subplots_adjust(left=0.05, bottom=0.05, right=0.85, top=None, wspace=0.5, hspace=0.5)
             plot()
+
+def plot_all(sample):
+    from torchvision import transforms
+    plot_obj = transforms.Compose([Line(legend=True), Bar(legend=True), Box(), Histogram(legend=True), Pie(legend=True)])
+    plot_obj(sample)

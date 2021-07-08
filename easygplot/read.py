@@ -34,7 +34,7 @@ class CSV:
         i.e. if `labels == False`
         3. 
     """
-    def __init__ (self, filename, labels = True, delimiter=",", set_index = 0, select_columns = None, missing_data_handling_strategy = 'mean'):
+    def __init__ (self, filename, labels = True, delimiter=",", set_index = 0, select_columns = None, missing_data_handling_strategy = 'mean', skip_lines = None):
         
         self.data = None
         self.columns = []
@@ -42,6 +42,9 @@ class CSV:
             with open(filename, 'r') as csvfile:
                 # creating a csv reader object
                 csvreader = csv.reader(csvfile, delimiter=delimiter)
+                if skip_lines:
+                    for _ in range(skip_lines):
+                        next(csvreader)
 
                 # extracting field names through first row
                 if labels:
@@ -71,11 +74,14 @@ class CSV:
 
         if set_index == None:
             self.x_label = list(range(self.data.shape[0]))
+            self.row_data = self.data[:, :]
         else:
             self.x_label = self.data[:, set_index]
             self.row_data = self.data[:, 1:]
-
-        self.labels = (self.x_label, self.columns[1:])
+        if labels:
+            self.labels = (self.x_label, self.columns[1:])
+        else:
+            self.labels = (self.x_label, range(self.data.shape[1]-1))
 
 
     def __getitem__ (self, index):
