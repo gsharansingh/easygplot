@@ -202,7 +202,10 @@ class Box(object):
             plt.figure(figsize=self.figsize)
         if self.do_subplot:
             plt.subplot(4, 2, self.subplot_num + 1)
-        plt.boxplot(data, labels = labels[1])
+        if (len(data.shape) == 1):
+            plt.boxplot(data, labels = [labels[1]])
+        else:
+            plt.boxplot(data, labels = labels[1])
         if self.title:
             plt.title(self.title)
         if self.x_label:
@@ -325,6 +328,7 @@ class Pie(object):
             plt.pie(np.sum(data, axis = 0), labels = labels[1])
             if self.title_cwise:
                 plt.title(self.title_cwise)
+                
         if self.legend:
             if type(labels[1]) == str:
                 plt.legend([labels[1]], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
@@ -374,17 +378,16 @@ class Subplots:
 
         if 'all' in args:
             if len(self.sample[0].shape) == 1:
-                subplot_num = (1, 2, 3)
+                subplot_num = (3, 4)
                 num_subplots = 5
             else:
-                subplot_num = (2, 4, 6)
+                subplot_num = (4, 6)
                 num_subplots = 7
             all_plots += [Line(sample = self.sample, legend = True, do_subplot= True, subplot_num = 0)]
-            if len(self.sample[0].shape) != 1:
-                all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = 1)]
-            all_plots += [Pie( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[0])]
-            all_plots += [Bar( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[1])]
-            all_plots += [Histogram( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[2])]
+            all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = 1)]
+            all_plots += [Pie( sample = self.sample, legend = True, do_subplot= True, subplot_num = 2)]
+            all_plots += [Bar( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[0])]
+            all_plots += [Histogram( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[1])]
                 
 
         else:
