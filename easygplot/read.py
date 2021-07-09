@@ -13,8 +13,8 @@ class CSV:
         Input the name of the csv file to read.
         For example, Plot.CSV('...filename.csv...')
     labels: bool (default = True)
-        Set 'True', if the first row of the csv file is columns.
-        Set 'False', if the first row of the csv file is not columns.
+        Set 'True', if you want to set any column in the file as x-axis. 
+        Set 'False', if you want indexing of x-axis from 0 to length(rows).
     delimiter: one char str (default = `,`)
         If the csv file is separated with some other symbols (such as ':', ';', '/t',....), Input that symbol.
     set_index: int (default = 0)
@@ -34,7 +34,7 @@ class CSV:
     TODO:
         Complete
     """
-    def __init__ (self, filename, labels = True, delimiter=",", set_index = 0, select_columns = None, missing_data_handling_strategy = 'mean', skip_lines = None):
+    def __init__ (self, filename, labels = True, delimiter=",", set_index = 0, missing_data_handling_strategy = 'mean', skip_lines = None):
         
         self.data = None
         self.columns = []
@@ -70,7 +70,7 @@ class CSV:
             self.data = np.delete(self.data, np.argwhere(np.isnan(self.data).any(axis = 1)), axis = 0)
         else:
             imputer = SimpleImputer(missing_values=np.nan, strategy=missing_data_handling_strategy)
-        self.data[:, 1:] = imputer.fit_transform(self.data[:, 1:])
+            self.data[:, :] = imputer.fit_transform(self.data[:, :])
 
         if set_index == None:
             self.x_label = list(range(self.data.shape[0]))
@@ -78,7 +78,7 @@ class CSV:
             if labels:
                 self.labels = (self.x_label, self.columns)
             else:
-                self.labels = (self.x_label, range(self.data.shape[1]))
+                self.labels = (self.x_label, list(range(self.data.shape[1])))
         else:
             self.x_label = self.data[:, set_index]
             if set_index == 0:
@@ -86,13 +86,13 @@ class CSV:
                 if labels:
                     self.labels = (self.x_label, self.columns[1:])
                 else:
-                    self.labels = (self.x_label, range(self.data.shape[1]-1))
+                    self.labels = (self.x_label, list(range(self.data.shape[1]-1)))
             else:
                 self.row_data = np.hstack((self.data[:, :set_index], self.data[:, set_index+1:]))
                 if labels:
                     self.labels = (self.x_label, self.columns[:set_index] + (self.columns[set_index+1:]))
                 else:
-                    self.labels = (self.x_label, range(self.data.shape[1]-1))
+                    self.labels = (self.x_label, list(range(self.data.shape[1]-1)))
 
     def __getitem__ (self, index):
         
