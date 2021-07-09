@@ -28,11 +28,11 @@ class CSV:
         If 'constant', it will replace missing value with fill_value.
         If 'drop_row', it will drop the whole row containing missing value.
         If 'drop_column', it will drop the whole column containing missing value.
+    skip_lines: int (default = None)
+        If some empty line(s) or description present in the beginning of the file,
+        input the number of lines to discard the lines. 
     TODO:
-        1. Implement the y-axis data selection
-        2. Implement the self.labels in the case the first row of csv file does not contains labels,
-        i.e. if `labels == False`
-        3. 
+        Complete
     """
     def __init__ (self, filename, labels = True, delimiter=",", set_index = 0, select_columns = None, missing_data_handling_strategy = 'mean', skip_lines = None):
         
@@ -75,14 +75,24 @@ class CSV:
         if set_index == None:
             self.x_label = list(range(self.data.shape[0]))
             self.row_data = self.data[:, :]
+            if labels:
+                self.labels = (self.x_label, self.columns)
+            else:
+                self.labels = (self.x_label, range(self.data.shape[1]))
         else:
             self.x_label = self.data[:, set_index]
-            self.row_data = self.data[:, 1:]
-        if labels:
-            self.labels = (self.x_label, self.columns[1:])
-        else:
-            self.labels = (self.x_label, range(self.data.shape[1]-1))
-
+            if set_index == 0:
+                self.row_data = self.data[:, 1:]
+                if labels:
+                    self.labels = (self.x_label, self.columns[1:])
+                else:
+                    self.labels = (self.x_label, range(self.data.shape[1]-1))
+            else:
+                self.row_data = np.hstack((self.data[:, :set_index], self.data[:, set_index+1:]))
+                if labels:
+                    self.labels = (self.x_label, self.columns[:set_index] + (self.columns[set_index+1:]))
+                else:
+                    self.labels = (self.x_label, range(self.data.shape[1]-1))
 
     def __getitem__ (self, index):
         

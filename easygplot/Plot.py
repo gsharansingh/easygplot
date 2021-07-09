@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import csv
 import numpy as np
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -35,11 +34,6 @@ class Line(object):
     -------
     sample : 'easygplot.read(...filename...)' object
         It is returned for the purpose of creating a pipeline.
-
-    TODO:
-        1. Add support for data without labels.
-        2. y-ticks support
-        3. Smart way to handle data flow through pipeline.
     """
     def __init__ (self, sample = None, figsize = (8, 5), linestyle = 'solid', legend = False, do_subplot = False, subplot_num = None,
     title = None, x_label = None, y_label = None):
@@ -385,9 +379,9 @@ class Subplots:
                 num_subplots = 7
             all_plots += [Line(sample = self.sample, legend = True, do_subplot= True, subplot_num = 0)]
             all_plots += [Box(sample = self.sample, do_subplot= True, subplot_num = 1)]
-            all_plots += [Pie( sample = self.sample, legend = True, do_subplot= True, subplot_num = 2)]
-            all_plots += [Bar( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[0])]
-            all_plots += [Histogram( sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[1])]
+            all_plots += [Pie(sample = self.sample, legend = True, do_subplot= True, subplot_num = 2)]
+            all_plots += [Bar(sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[0])]
+            all_plots += [Histogram(sample = self.sample, legend = True, do_subplot= True, subplot_num = subplot_num[1])]
                 
 
         else:
