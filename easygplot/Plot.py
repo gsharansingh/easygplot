@@ -133,6 +133,7 @@ class Bar(object):
         plt.xticks(labels[0], rotation=90)
         if not self.do_subplot:
             plt.show()
+            return self.sample
 
         if len(data.shape) != 1:
             if not self.do_subplot:
@@ -151,7 +152,7 @@ class Bar(object):
             plt.xticks(labels[1], rotation=90)
             if not self.do_subplot:
                 plt.show()
-                return self.sample
+                
 
 class Box(object):
     """
@@ -330,6 +331,7 @@ class Pie(object):
                 plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
         if not self.do_subplot:
             plt.show()
+            return self.sample
 
         if len(data.shape) != 1:
             if not self.do_subplot:
@@ -343,7 +345,7 @@ class Pie(object):
                 plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
             if not self.do_subplot:
                 plt.show()
-                return self.sample
+                
 
 class Subplots:
     """

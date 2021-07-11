@@ -34,7 +34,7 @@ Whereas, printing the length will give the number of rows in the data
 print(len(data_obj))
 ```
 
-## Features
+#### Features
 
 1. Reading file with/without labels: Set 'True', if you want to set any column in the file as x-axis. Set 'False', if you want indexing of x-axis from 0 to length(rows).
 
@@ -70,3 +70,22 @@ data_obj = read.CSV("gasprices.csv", set_index = 3)
 ```
 data_obj = read.CSV("gasprices.csv", skip_lines = 2)
 ```
+
+## Plot All Graphs
+
+Here is an [example](https://github.com/gsharansingh/easygplot/blob/main/plot_all.ipynb) of plotting all graphs with `easygplot.read.CSV(...filename...)` object.
+
+We can plot all the graphs with all indexes as following:
+
+```
+from easygplot import read
+data_obj = read.CSV("gasprices.csv")
+Plot.plot_all(data_obj[:])
+```
+
+We can use indexing to plot all graphs for specific index(es), like this:
+
+`Plot.plot_all(data_obj[2])` for data at index = 2
+
+`Plot.plot_all(data_obj[3:6])` for data at indexes = 3, 4, 5
+
