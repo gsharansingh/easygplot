@@ -91,3 +91,25 @@ We can use indexing to plot all graphs for specific index(es), like this:
 
 ## Plot Graphs as Subplots
 
+Here is an [example](https://github.com/gsharansingh/easygplot/blob/main/plot_subplots.ipynb) of plotting all or particular graphs as subplots with `easygplot.read.CSV(...filename...)` object.
+
+We can plot all graphs as subplots as following:
+
+```
+plot = Plot.Subplots(sample= data_obj[3:6], legend = True)
+plot('all')
+```
+
+We can plot particular graphs as subplots, like below:
+
+```
+plot = Plot.Subplots(sample= data_obj[3:6], legend = True)
+plot('line', 'box', 'bar', 'histogram')
+```
+
+We can plot these subplots on object with single object as well,
+
+```
+plot = Plot.Subplots(sample= data_obj[2], legend = True)
+plot('bar', 'box')
+```
