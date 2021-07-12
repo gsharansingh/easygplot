@@ -89,3 +89,5 @@ We can use indexing to plot all graphs for specific index(es), like this:
 
 `Plot.plot_all(data_obj[3:6])` for data at indexes = 3, 4, 5
 
+## Plot Graphs as Subplots
+
