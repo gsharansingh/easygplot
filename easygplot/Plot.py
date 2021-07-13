@@ -119,12 +119,12 @@ class Bar(object):
             plt.bar(labels[0], data, width = 0.6, label=labels[1][0])
         else:
             plt.bar(labels[0], data[:, 0], width = 0.6, label=labels[1][0])
-            if self.title:
-                plt.title(self.title)
-            if self.y_label:
-                plt.ylabel(self.y_label)
             for i, column_label in enumerate(labels[1][1:]):
                 plt.bar(labels[0], data[:, i+1],width = 0.6, bottom=np.sum(data[:, :i+1], axis = 1), label=column_label)
+        if self.title:
+                plt.title(self.title)
+        if self.y_label:
+            plt.ylabel(self.y_label)
         if self.legend:
             if type(labels[1]) == str:
                 plt.legend([labels[1]], loc='upper right', bbox_to_anchor=(0.4, 0, 1, 1))
@@ -133,7 +133,6 @@ class Bar(object):
         plt.xticks(labels[0], rotation=90)
         if not self.do_subplot:
             plt.show()
-            return self.sample
 
         if len(data.shape) != 1:
             if not self.do_subplot:
@@ -152,6 +151,9 @@ class Bar(object):
             plt.xticks(labels[1], rotation=90)
             if not self.do_subplot:
                 plt.show()
+
+        if not self.do_subplot:
+            return self.sample
                 
 
 class Box(object):
@@ -321,8 +323,8 @@ class Pie(object):
             plt.pie(data, labels = labels[0])
         else:
             plt.pie(np.sum(data, axis = 0), labels = labels[1])
-            if self.title_cwise:
-                plt.title(self.title_cwise)
+        if self.title_cwise:
+            plt.title(self.title_cwise)
                 
         if self.legend:
             if type(labels[1]) == str:
@@ -331,7 +333,6 @@ class Pie(object):
                 plt.legend(labels[1], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
         if not self.do_subplot:
             plt.show()
-            return self.sample
 
         if len(data.shape) != 1:
             if not self.do_subplot:
@@ -345,6 +346,8 @@ class Pie(object):
                 plt.legend(labels[0], loc='upper right', bbox_to_anchor=(0.6, 0, 1, 1))
             if not self.do_subplot:
                 plt.show()
+        if not self.do_subplot:
+            return self.sample
                 
 
 class Subplots:
