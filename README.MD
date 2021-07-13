@@ -78,7 +78,7 @@ Here is an [example](https://github.com/gsharansingh/easygplot/blob/main/plot_al
 We can plot all the graphs with all indexes as following:
 
 ```
-from easygplot import read
+from easygplot import read, Plot
 data_obj = read.CSV("gasprices.csv")
 Plot.plot_all(data_obj[:])
 ```
@@ -107,9 +107,35 @@ plot = Plot.Subplots(sample= data_obj[3:6], legend = True)
 plot('line', 'box', 'bar', 'histogram')
 ```
 
-We can plot these subplots on object with single object as well,
+We can plot these subplots on object with single index data as well,
 
 ```
 plot = Plot.Subplots(sample= data_obj[2], legend = True)
 plot('bar', 'box')
 ```
+
+## Plot Individual Graphs
+
+Here is a quick [guide (link)](https://github.com/gsharansingh/easygplot/blob/main/individual_graphs.ipynb) to plot a single type of graph
+
+Method 1: passing data to the object
+
+```
+line_plot = Plot.Line(legend=True)
+g1 = line_plot(data_obj[:])
+```
+
+Method 2: passing data while initializing the object
+
+```
+line_plot = Plot.Line(data_obj[:], legend = True)
+g2 = line_plot()
+```
+
+Method 3: passing data inline
+
+```
+g3 = Plot.Line(legend=True)(data_obj[:])
+```
+
+We can do the same operation with Pie, Bar, Box and Histogram Plots. For more examples check out this [link](https://github.com/gsharansingh/easygplot/blob/main/individual_graphs.ipynb)
