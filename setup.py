@@ -19,5 +19,6 @@ setuptools.setup(
     # python_requires='>=3.6',                # Minimum version requirement of the package
     # py_modules=["quicksample"],             # Name of the python package
     # package_dir={'':'quicksample/src'},     # Directory of the source code of the package
-    # install_requires=[]                     # Install other dependencies if any
+    # install_requires=[numpy==1.19,
+    #   matplotlib==]                     # Install other dependencies if any
 )
