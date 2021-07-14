@@ -1,3 +1,4 @@
 # Files to ignore
 .ipynb_checkpoints/
 easygplot/__pycache__/
+test.ipynb
